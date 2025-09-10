@@ -109,18 +109,18 @@ for i in range(amount)
     elif school=="UNIVERSITY":
         st.subheader(f"subject {i+1}")
         with col1:
-            st.write("please enter your grade point")
+            st.write("please enter your grade point",0,4)
             gra_point[i] = st.number_input("grade point:")
         with col2:
             st.write("please enter your credit hour for this subject")
             cre_hour[i]=st.number_input("credit hour")
+if st.button("calculate"):
+    if school=="STPM":
+        GPA=stpm_gpa_calculator(amount,gra_point)
+    elif school=="UNIVERSITY":
+        GPA=university_gpa_calculator(cre_hour,gra_point)
+    else:
+        GPA=0
+    
+    st.success(f"your GPA is {GPA}")
 
-    j=j+1
-if school=="STPM":
-    GPA=stpm_gpa_calculator(amount,gra_point)
-elif school=="UNIVERSITY":
-    GPA=university_gpa_calculator(cre_hour,gra_point)
-else:
-    GPA=0
-
-st.success(f"your GPA is {GPA}")
