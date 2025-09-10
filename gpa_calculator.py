@@ -99,21 +99,21 @@ amount=st.slider('enter amount of subject',1,10,5)
 gra_point=[]
 cre_hour=[]
 col1,col2=st.columns(2)
-j=0
-while j<amount:
+
+for i in range(amount)
     if school=="STPM":
-        st.subheader(f"subject {j+1}")
+        st.subheader(f"subject {i+1}")
         st.write("please enter your grade point")
-        gra_point[j] = st.number_input("enter grade point:")
+        gra_point[i] = st.number_input("enter grade point:")
 
     elif school=="UNIVERSITY":
-        st.subheader(f"subject {j+1}")
+        st.subheader(f"subject {i+1}")
         with col1:
             st.write("please enter your grade point")
-            gra_point[j] = st.number_input("grade point:")
+            gra_point[i] = st.number_input("grade point:")
         with col2:
             st.write("please enter your credit hour for this subject")
-            cre_hour[j]=st.number_input("credit hour")
+            cre_hour[i]=st.number_input("credit hour")
 
     j=j+1
 if school=="STPM":
@@ -122,4 +122,5 @@ elif school=="UNIVERSITY":
     GPA=university_gpa_calculator(cre_hour,gra_point)
 else:
     GPA=0
+
 st.success(f"your GPA is {GPA}")
