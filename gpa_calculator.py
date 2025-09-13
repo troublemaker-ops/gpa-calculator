@@ -92,9 +92,9 @@ if st.checkbox("marks/grade converter"):
 school=st.radio('are you prefer to calculate GPA for?',["STPM","UNIVERSITY"])
 amount=st.slider('enter amount of subject',1,10,5)
 if "gra_points" not in st.session_state:
-    st.session_state["gra_points"]=[0.0]*amount
+    st.session_state["gra_points"]=[0.0]*10
 if "cre_hours" not in st.session_state:
-    st.session_state["cre_hours"]=[1]*amount
+    st.session_state["cre_hours"]=[1]*10
 
 st.subheader("Enter your subject:")
 
@@ -111,10 +111,11 @@ if st.button("calculate"):
     if school=="STPM":
         GPA=stpm_gpa_calculator(amount,st.session_state.gra_points[:amount])
     elif school=="UNIVERSITY":
-        GPA=university_gpa_calculator(st.session_state.cre_hours[:amount],st.session_state.gra_point[:amount])
+        GPA=university_gpa_calculator(st.session_state.cre_hours[:amount],st.session_state.gra_points[:amount])
     else:
         GPA=0
 
     st.success(f"your GPA is {GPA}")
+
 
 
