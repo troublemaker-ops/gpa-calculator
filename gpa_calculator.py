@@ -83,7 +83,7 @@ if st.expander("marks/grade converter"):
     choice=st.radio("Choose conversion",("mark -> grade point","grade -> grade point"))
     if choice=="mark -> grade point":
         mark=st.number_input("enter marks :",0,100)
-        gp=point_table_grade(mark)
+        gp=point_table_marks(mark)
     else:
         grades_=st.selectbox("choose your grade:",table["Letter Grade"])
         gp=point_table_grade(grades_)
@@ -114,4 +114,5 @@ if st.button("calculate"):
         GPA=university_gpa_calculator(st.session_state.cre_hour[:amount],st.session_state.gra_point[:amount])
     else:
         GPA=0
+
     st.success(f"your GPA is {GPA}")
