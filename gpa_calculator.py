@@ -79,7 +79,7 @@ if st.checkbox("grade point table"):
 
 st.write("we can help you convert marks or grades into grade points.if you need help ,please click the 'marks or grade converter")
 
-if st.expander("marks/grade converter"):
+if st.checkbox("marks/grade converter"):
     choice=st.radio("Choose conversion",("mark -> grade point","grade -> grade point"))
     if choice=="mark -> grade point":
         mark=st.number_input("enter marks :",0,100)
@@ -106,7 +106,7 @@ for i in range (amount):
        st.session_state["gra_points"][i]=st.number_input(f"Grade point for Subject {i+1}",0.0,4.0,st.session_state.gra_points[i],key=f"gp{i}")
     if school=="UNIVERSITY":
         with col2:
-            st.session_state["cre-hours"][i]=st.number_input(f"Credit Hour for Subject {i+1}",1,6,st.session_state.cre_hours[i],key=f"cre{i}")
+            st.session_state["cre_hours"][i]=st.number_input(f"Credit Hour for Subject {i+1}",1,6,st.session_state.cre_hours[i],key=f"cre{i}")
 if st.button("calculate"):
     if school=="STPM":
         GPA=stpm_gpa_calculator(amount,st.session_state.gra_points[:amount])
@@ -116,3 +116,4 @@ if st.button("calculate"):
         GPA=0
 
     st.success(f"your GPA is {GPA}")
+
