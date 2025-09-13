@@ -111,9 +111,10 @@ if st.button("calculate"):
     if school=="STPM":
         GPA=stpm_gpa_calculator(amount,st.session_state.gra_points[:amount])
     elif school=="UNIVERSITY":
-        GPA=university_gpa_calculator(st.session_state.cre_hour[:amount],st.session_state.gra_point[:amount])
+        GPA=university_gpa_calculator(st.session_state.cre_hours[:amount],st.session_state.gra_point[:amount])
     else:
         GPA=0
 
     st.success(f"your GPA is {GPA}")
+
 
