@@ -6,24 +6,15 @@ st.title('welcome to gpa calculator')
 
 #amount:amount of subject
 def stpm_gpa_calculator(amounts,grade_point):
-    total_grade=""
-    for grades in grade_point:
-        total_grade=+grades
+    total_grade=sum(grade_point)
     gpa=total_grade/amounts
-    return gpa
+    return round(gpa,2)
 
 def university_gpa_calculator(credit_hour,grade_point):
-    total_credit_hour=""
-    total_grade=""
-    i=0
-    for credit in credit_hour:
-        total_credit_hour=+credit
-    for grades in grade_point:
-        grade_hour=grades*credit_hour[i]
-        total_grade=+grade_hour
-        i=+1
+    total_credit_hour=sum(credit_hour)
+    total_grade=sum(g*c for g,c in zip(grade_point,credit_hour))
     gpa=total_grade/total_credit_hour
-    return gpa
+    return round(gpa,2)
 
 def point_table_marks(marks):
     if 80<marks<100:
@@ -80,47 +71,47 @@ table={
     "Grade Point":[4.00,4.00,3.67,3.33,3.00,2.67,2.33,2.00,1.67,1.00,0.00]
 }
 st.subheader('this is a calculator for stpm and university student to count their GPA')
-if st.button("grade point table"):
+
+
+if st.checkbox("grade point table"):
     point_table=pd.DataFrame(table)
     st.dataframe(point_table)
+
 st.write("we can help you convert marks or grades into grade points.if you need help ,please click the 'marks or grade converter")
-if st.button("marks or grade converter "):
-    choice=st.radio("",("mark for grade point","grade for grade point"))
-    if choice=="mark for grade point":
-        mark=st.number_input("enter marks :")
+
+if st.expander("marks/grade converter"):
+    choice=st.radio("Choose conversion",("mark -> grade point","grade -> grade point"))
+    if choice=="mark -> grade point":
+        mark=st.number_input("enter marks :",0,100)
         gp=point_table_grade(mark)
     else:
-        grades_=st.radio("choose your grade:",("A+","A","A-","B+","B","B-","C+","C","C-","D+","F"))
+        grades_=st.selectbox("choose your grade:",table["Letter Grade"])
         gp=point_table_grade(grades_)
     st.success(f"your grade is {gp}")
 
-school=st.radio('are you prefer to calculate GPA for?',("STPM","UNIVERSITY"))
+school=st.radio('are you prefer to calculate GPA for?',["STPM","UNIVERSITY"])
 amount=st.slider('enter amount of subject',1,10,5)
-gra_point=[]
-cre_hour=[]
-col1,col2=st.columns(2)
+if "gra_points" not in st.session_state:
+    st.session_state["gra_points"]=[0.0]*amount
+if "cre_hours" not in st.session_state:
+    st.session_state["cre_hours"]=[1]*amount
 
-for i in range(amount)
-    if school=="STPM":
-        st.subheader(f"subject {i+1}")
-        st.write("please enter your grade point")
-        gra_point[i] = st.number_input("enter grade point:")
+st.subheader("Enter your subject:")
 
-    elif school=="UNIVERSITY":
-        st.subheader(f"subject {i+1}")
-        with col1:
-            st.write("please enter your grade point",0,4)
-            gra_point[i] = st.number_input("grade point:")
+for i in range (amount):
+    st.markdown(f"Subject: {i+1}")
+    col1, col2 = st.columns(2)
+
+    with col1:
+       st.session_state["gra_points"][i]=st.number_input(f"Grade point for Subject {i+1}",0.0,4.0,st.session_state.gra_points[i],key=f"gp{i}")
+    if school=="UNIVERSITY":
         with col2:
-            st.write("please enter your credit hour for this subject")
-            cre_hour[i]=st.number_input("credit hour")
+            st.session_state["cre-hours"][i]=st.number_input(f"Credit Hour for Subject {i+1}",1,6,st.session_state.cre_hours[i],key=f"cre{i}")
 if st.button("calculate"):
     if school=="STPM":
-        GPA=stpm_gpa_calculator(amount,gra_point)
+        GPA=stpm_gpa_calculator(amount,st.session_state.gra_points[:amount])
     elif school=="UNIVERSITY":
-        GPA=university_gpa_calculator(cre_hour,gra_point)
+        GPA=university_gpa_calculator(st.session_state.cre_hour[:amount],st.session_state.gra_point[:amount])
     else:
         GPA=0
-    
     st.success(f"your GPA is {GPA}")
-
